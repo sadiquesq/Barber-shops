@@ -1,0 +1,8 @@
+﻿namespace Barber_shops.nothing
+{
+    public class Class
+    {
+
+     public string name
+    }
+}
