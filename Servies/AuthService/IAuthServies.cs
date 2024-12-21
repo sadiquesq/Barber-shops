@@ -6,7 +6,7 @@ namespace Barber_shops.Servies.AuthService
     public interface IAuthServies
     {
 
-        Task<bool> signup([FromForm] UserDto user);
+        Task<string> signup([FromForm] UserDto user);
 
     }
 }

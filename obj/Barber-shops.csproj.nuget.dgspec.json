@@ -54,9 +54,13 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.26.2, )"
+            },
             "MailKit": {
               "target": "Package",
-              "version": "[4.8.0, )"
+              "version": "[4.9.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

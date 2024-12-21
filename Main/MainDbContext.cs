@@ -10,5 +10,6 @@ namespace Barber_shops.Main
 
         public DbSet<User> users { get; set; }
 
+        public DbSet<imageupload> imageuploads { get; set; }
     }
 }

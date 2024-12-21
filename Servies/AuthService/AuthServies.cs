@@ -2,6 +2,7 @@
 using Barber_shops.DTOs.User;
 using Barber_shops.Main;
 using Barber_shops.Models;
+using Barber_shops.Servies.Emailservies;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,14 +14,16 @@ namespace Barber_shops.Servies.AuthService
 
         private readonly MainDbContext _mainDbContext;
         private readonly IMapper _mapper;
+        private readonly IEmailSerives _emailSerives;
 
-        public AuthServies(MainDbContext mainDbContext, IMapper mapper)
+        public AuthServies(MainDbContext mainDbContext, IMapper mapper, IEmailSerives emailSerives)
         {
             _mainDbContext = mainDbContext;
             _mapper = mapper;
+            _emailSerives = emailSerives;
         }
 
-        public async Task<bool> signup(UserDto user)
+        public async Task<string> signup(UserDto user)
         {
             try
             {
@@ -28,16 +31,24 @@ namespace Barber_shops.Servies.AuthService
 
                 if (isExist != null)
                 {
-                    return false;
+                    return "user is already exist";
                 }
 
-                var haspassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                user.Password = haspassword;
+                bool emailverify=  _emailSerives.verifyOtp(user.Email,user.otp);
+                if (emailverify)
+                {
 
-                var u = _mapper.Map<User>(user);
-                _mainDbContext.users.Add(u);
-                await _mainDbContext.SaveChangesAsync();
-                return true;
+                    var haspassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                    user.Password = haspassword;
+
+                    var u = _mapper.Map<User>(user);
+                    _mainDbContext.users.Add(u);
+                    await _mainDbContext.SaveChangesAsync();
+
+
+                    return "succesfully registered";
+                }
+                return "wrong otp";
             }
             catch (Exception ex)
             {

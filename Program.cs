@@ -1,7 +1,10 @@
 
 using Barber_shops.AutoMapper;
+using Barber_shops.CloudinaryServies;
 using Barber_shops.Main;
+using Barber_shops.Models;
 using Barber_shops.Servies.AuthService;
+using Barber_shops.Servies.Emailservies;
 using Microsoft.EntityFrameworkCore;
 
 namespace Barber_shops
@@ -18,14 +21,16 @@ namespace Barber_shops
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.Configure<Emailsettings>(builder.Configuration.GetSection("Emailsettings"));
 
 
             builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
             builder.Services.AddScoped<IAuthServies,AuthServies>();
+            builder.Services.AddScoped<IEmailSerives,EmailServies>();
 
-
+            builder.Services.AddScoped<ICloudinaryServices, CloudinaryServices>();
 
             builder.Services.AddAutoMapper(typeof(MainAutoMapper));
 
@@ -41,7 +46,7 @@ namespace Barber_shops
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

@@ -57,6 +57,23 @@ namespace Barber_shops.Migrations
 
                     b.ToTable("users");
                 });
+
+            modelBuilder.Entity("Barber_shops.Models.imageupload", b =>
+                {
+                    b.Property<int>("role")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("role"));
+
+                    b.Property<string>("url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("role");
+
+                    b.ToTable("imageuploads");
+                });
 #pragma warning restore 612, 618
         }
     }
